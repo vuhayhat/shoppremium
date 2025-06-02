@@ -14,111 +14,57 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 10px;
 }
 
 .title-container {
     width: 100%;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .title-3d {
     position: relative;
     display: inline-block;
+    width: 100%;
+    max-width: 500px;
 }
 
-@keyframes colorRotate {
-    0% {
-        color: #b347ff;
-        text-shadow: 
-            0 0 5px #8a2be2,
-            0 0 10px #8a2be2,
-            0 0 15px #8a2be2,
-            0 0 20px #8a2be2,
-            0 0 30px #8a2be2;
-        border-color: #8a2be2;
-        box-shadow: 
-            0 0 10px #8a2be2,
-            0 0 20px #8a2be2,
-            inset 0 0 10px #8a2be2;
-    }
-    20% {
-        color: #ff3366;
-        text-shadow: 
-            0 0 5px #ff0066,
-            0 0 10px #ff0066,
-            0 0 15px #ff0066,
-            0 0 20px #ff0066,
-            0 0 30px #ff0066;
-        border-color: #ff0066;
-        box-shadow: 
-            0 0 10px #ff0066,
-            0 0 20px #ff0066,
-            inset 0 0 10px #ff0066;
-    }
-    40% {
-        color: #ffcc00;
-        text-shadow: 
-            0 0 5px #ff9500,
-            0 0 10px #ff9500,
-            0 0 15px #ff9500,
-            0 0 20px #ff9500,
-            0 0 30px #ff9500;
-        border-color: #ff9500;
-        box-shadow: 
-            0 0 10px #ff9500,
-            0 0 20px #ff9500,
-            inset 0 0 10px #ff9500;
-    }
-    60% {
-        color: #33ff99;
-        text-shadow: 
-            0 0 5px #00cc66,
-            0 0 10px #00cc66,
-            0 0 15px #00cc66,
-            0 0 20px #00cc66,
-            0 0 30px #00cc66;
-        border-color: #00cc66;
-        box-shadow: 
-            0 0 10px #00cc66,
-            0 0 20px #00cc66,
-            inset 0 0 10px #00cc66;
-    }
-    80% {
-        color: #33ccff;
-        text-shadow: 
-            0 0 5px #0099ff,
-            0 0 10px #0099ff,
-            0 0 15px #0099ff,
-            0 0 20px #0099ff,
-            0 0 30px #0099ff;
-        border-color: #0099ff;
-        box-shadow: 
-            0 0 10px #0099ff,
-            0 0 20px #0099ff,
-            inset 0 0 10px #0099ff;
-    }
-    100% {
-        color: #b347ff;
-        text-shadow: 
-            0 0 5px #8a2be2,
-            0 0 10px #8a2be2,
-            0 0 15px #8a2be2,
-            0 0 20px #8a2be2,
-            0 0 30px #8a2be2;
-        border-color: #8a2be2;
-        box-shadow: 
-            0 0 10px #8a2be2,
-            0 0 20px #8a2be2,
-            inset 0 0 10px #8a2be2;
-    }
+.glow-text {
+    font-family: 'Oi', cursive;
+    font-size: 3.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    color: #ff66cc; /* Hồng sáng */
+    text-shadow: 
+        0 0 5px #ff1493,
+        0 0 10px #ff1493,
+        0 0 15px #ff1493,
+        0 0 20px #ff1493,
+        0 0 30px #ff1493;
+    -webkit-text-stroke: 1px #ffffff;
+    border: 3px solid #ff1493;
+    box-shadow: 
+        0 0 10px #ff1493,
+        0 0 20px #ff1493,
+        inset 0 0 10px #ff1493;
+    margin: 0 auto;
+    max-width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 /* Container styles */
 .container {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
+    padding: 0 10px;
 }
 
 .profile-card {
@@ -220,40 +166,69 @@ body {
     background-color: #0068ff;
 }
 
+/* Cải thiện responsive trên điện thoại */
 @media (max-width: 480px) {
     .glow-text {
-        font-size: 3rem;
+        font-size: 2.5rem;
         padding: 8px 15px;
+        letter-spacing: 1px;
+        width: 100%;
+    }
+    
+    .title-3d {
+        width: 100%;
     }
     
     .container {
-        width: 90%;
+        width: 95%;
         max-width: 350px;
     }
     
     .profile-card {
-        margin-top: 20px;
+        margin-top: 10px;
     }
     
     .profile-img {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
     }
     
     .profile-header {
-        padding: 20px 15px;
+        padding: 15px 10px;
+    }
+    
+    .profile-name h2 {
+        font-size: 1.3rem;
+    }
+    
+    .profile-name p {
+        font-size: 0.9rem;
     }
     
     .social-link {
-        padding: 12px;
+        padding: 10px;
+        font-size: 0.9rem;
     }
     
     .product-button {
-        padding: 12px 20px;
+        padding: 10px 15px;
+        font-size: 0.95rem;
     }
     
     .title-container {
         margin-bottom: 10px;
+    }
+    
+    body {
+        padding: 5px;
+    }
+}
+
+/* Thêm breakpoint cho màn hình siêu nhỏ */
+@media (max-width: 320px) {
+    .glow-text {
+        font-size: 2rem;
+        padding: 5px 10px;
     }
 }
 
@@ -395,20 +370,4 @@ body {
     .product-grid {
         grid-template-columns: 1fr;
     }
-}
-
-.glow-text {
-    font-family: 'Oi', cursive;
-    font-size: 4.5rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    position: relative;
-    display: inline-block;
-    padding: 10px 30px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
-    border: 3px solid;
-    margin: 0;
-    animation: colorRotate 10s linear infinite;
 } 
