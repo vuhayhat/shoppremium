@@ -56,12 +56,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let isChatbotOpen = false;
     
     // Hiển thị cửa sổ chat khi nhấn vào nút chatbot
-    chatbotButton.addEventListener('click', function() {
+    chatbotButton.addEventListener('click', function(e) {
+        e.stopPropagation();
         if (isChatbotOpen) {
-            // Đóng chatbot nếu đang mở
             closeChatbot();
         } else {
-            // Mở chatbot nếu đang đóng
             openChatbot();
         }
     });
