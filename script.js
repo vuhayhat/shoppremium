@@ -52,20 +52,59 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatbotWindow = document.getElementById('chatbot-window');
     const chatbotClose = document.getElementById('chatbot-close');
     let chatbotVisible = true;
+    let chatbotShowing = false;
+    
+    // Hiển thị thông báo mỗi 3 giây với hiệu ứng xuất hiện/biến mất
     let chatbotInterval = setInterval(() => {
         if (chatbotVisible) {
-            chatbotMessage.style.display = 'block';
+            if (chatbotShowing) {
+                // Ẩn đi sau 2 giây hiển thị
+                chatbotMessage.style.opacity = '0';
+                setTimeout(() => {
+                    chatbotMessage.style.display = 'none';
+                    chatbotShowing = false;
+                }, 500);
+            } else {
+                // Hiện lên
+                chatbotMessage.style.display = 'block';
+                setTimeout(() => {
+                    chatbotMessage.style.opacity = '1';
+                    chatbotShowing = true;
+                }, 10);
+                
+                // Tự động ẩn sau 2 giây
+                setTimeout(() => {
+                    if (chatbotShowing) {
+                        chatbotMessage.style.opacity = '0';
+                        setTimeout(() => {
+                            chatbotMessage.style.display = 'none';
+                            chatbotShowing = false;
+                        }, 500);
+                    }
+                }, 2000);
+            }
         }
-    }, 2000);
+    }, 3000);
+    
     chatbotMessage.addEventListener('click', function() {
-        chatbotMessage.style.display = 'none';
-        chatbotWindow.style.display = 'block';
-        chatbotVisible = false;
+        chatbotMessage.style.opacity = '0';
+        setTimeout(() => {
+            chatbotMessage.style.display = 'none';
+            chatbotWindow.style.display = 'block';
+            setTimeout(() => {
+                chatbotWindow.style.opacity = '1';
+            }, 10);
+            chatbotVisible = false;
+            chatbotShowing = false;
+        }, 300);
     });
+    
     chatbotClose.addEventListener('click', function() {
-        chatbotWindow.style.display = 'none';
-        chatbotMessage.style.display = 'block';
-        chatbotVisible = true;
+        chatbotWindow.style.opacity = '0';
+        setTimeout(() => {
+            chatbotWindow.style.display = 'none';
+            chatbotVisible = true;
+        }, 300);
     });
 
     // Update social links

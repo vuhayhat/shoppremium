@@ -589,39 +589,47 @@ body {
 /* Chatbot Popup Styles */
 .chatbot-popup {
     position: fixed;
-    bottom: 30px;
+    top: 50%;
     right: 30px;
+    transform: translateY(-50%);
     z-index: 9999;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
 .chatbot-message {
-    background: #fff;
-    color: #333;
-    border-radius: 20px 20px 0 20px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    padding: 12px 22px;
+    background: linear-gradient(135deg, #0084ff 0%, #00c6ff 100%);
+    color: #fff;
+    border-radius: 50px;
+    box-shadow: 0 4px 16px rgba(0,132,255,0.25);
+    padding: 10px 18px;
     margin-bottom: 8px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    animation: chatbot-blink 1s infinite alternate;
-    border: 2px solid #0084ff;
+    animation: chatbot-pulse 2s infinite;
+    border: none;
     font-weight: bold;
+    max-width: 220px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
-@keyframes chatbot-blink {
-    from { box-shadow: 0 0 8px #0084ff; }
-    to { box-shadow: 0 0 24px #0084ff; }
+@keyframes chatbot-pulse {
+    0% { transform: scale(1); box-shadow: 0 4px 16px rgba(0,132,255,0.25); }
+    50% { transform: scale(1.05); box-shadow: 0 4px 20px rgba(0,132,255,0.4); }
+    100% { transform: scale(1); box-shadow: 0 4px 16px rgba(0,132,255,0.25); }
 }
 .chatbot-window {
-    width: 260px;
+    width: 240px;
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     padding: 0;
     overflow: hidden;
-    border: 2px solid #0084ff;
+    border: none;
     animation: chatbot-fadein 0.3s;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 @keyframes chatbot-fadein {
     from { opacity: 0; transform: translateY(30px); }
@@ -655,8 +663,15 @@ body {
     background: #005bb5;
 }
 @media (max-width: 600px) {
-    .chatbot-popup { right: 10px; bottom: 10px; }
-    .chatbot-window { width: 90vw; max-width: 320px; }
+    .chatbot-popup {
+        right: 15px;
+        top: 30%;
+    }
+    .chatbot-message {
+        max-width: 180px;
+        font-size: 0.85rem;
+        padding: 8px 14px;
+    }
 }
 
 /* Cố định nút Xem Sản Phẩm ở dưới cùng */
