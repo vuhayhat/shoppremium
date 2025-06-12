@@ -11,16 +11,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     viewProductsBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        
         if (productShowcase.style.display === 'block') {
-            // Hide the showcase with animation
             productShowcase.style.opacity = '0';
             setTimeout(() => {
                 productShowcase.style.display = 'none';
                 viewProductsBtn.innerHTML = '<i class="fas fa-shopping-cart"></i><span>Xem Sản Phẩm</span>';
             }, 300);
         } else {
-            // Show the showcase with animation
             productShowcase.style.display = 'block';
             setTimeout(() => {
                 productShowcase.style.opacity = '1';
@@ -48,6 +45,39 @@ document.addEventListener('DOMContentLoaded', function() {
             closeModal();
         }
     });
+
+    // Chatbot popup logic
+    const chatbotPopup = document.getElementById('chatbot-popup');
+    const chatbotMessage = document.getElementById('chatbot-message');
+    const chatbotWindow = document.getElementById('chatbot-window');
+    const chatbotClose = document.getElementById('chatbot-close');
+    let chatbotVisible = true;
+    let chatbotInterval = setInterval(() => {
+        if (chatbotVisible) {
+            chatbotMessage.style.display = 'block';
+        }
+    }, 2000);
+    chatbotMessage.addEventListener('click', function() {
+        chatbotMessage.style.display = 'none';
+        chatbotWindow.style.display = 'block';
+        chatbotVisible = false;
+    });
+    chatbotClose.addEventListener('click', function() {
+        chatbotWindow.style.display = 'none';
+        chatbotMessage.style.display = 'block';
+        chatbotVisible = true;
+    });
+
+    // Update social links
+    const fbLink = document.querySelector('.social-link.facebook');
+    if (fbLink) {
+        fbLink.href = 'https://facebook.com/'; // Thay link Facebook mới nếu có
+    }
+    const zaloLink = document.querySelector('.social-link.zalo');
+    if (zaloLink) {
+        zaloLink.href = 'https://zalo.me/0825280204';
+        zaloLink.querySelector('span').textContent = 'Zalo: 0825280204';
+    }
 });
 
 // Function to load products
@@ -55,54 +85,84 @@ function loadProducts() {
     const productGrid = document.getElementById('productGrid');
     
     // Product data with images from ImgBB (free image hosting)
-    const products = [
+    const regularProducts = [
         {
             name: "Canva Pro",
-            description: "Mô tả chi tiết về sản phẩm 1",
+            description: "Thiết kế đồ họa chuyên nghiệp, không giới hạn",
             image: "https://i.ibb.co/xKTGz77j/image.png"
         },
         {
             name: "YouTube Premium",
-            description: "Mô tả chi tiết về sản phẩm 2",
-            image: "https://i.ibb.co/C38FzJFm/z6665028981439-b4fa1804fb89586f8370ef06b174c164.jpg"
+            description: "Xem video không quảng cáo, nghe nhạc nền, tải video",
+            image: "https://i.ibb.co/WnzmSQR/youtube.jpg"
         },
         {
             name: "Capcut Pro",
-            description: "Mô tả chi tiết về sản phẩm 3",
+            description: "Chỉnh sửa video chuyên nghiệp với nhiều hiệu ứng",
             image: "https://i.ibb.co/39xBKJTn/capcut.jpg"
         },
         {
-            name: "Microsoft 365 , Key bản quyền win và Office",
-            description: "Mô tả chi tiết về sản phẩm 4",
-            image: "https://i.ibb.co/1fHqFgyr/microsoft-365.jpg"
-        },
+            name: "Microsoft 365",
+            description: "Office, OneDrive, Windows bản quyền chính hãng",
+            image: "https://i.ibb.co/0qXZkdT/microsoft.jpg"
+        }
     ];
+    
+    const specialProduct = {
+        name: "Xem tất cả sản phẩm",
+        description: "Danh sách đầy đủ các mặt hàng hiện có",
+        image: "https://i.ibb.co/N9zfQXD/all-products.png",
+        isSpecial: true,
+        link: "https://docs.google.com/spreadsheets/d/your-sheet-id/edit"  // Thay thế bằng link Google Sheet thực tế
+    };
     
     // Clear existing products
     productGrid.innerHTML = '';
     
-    // Add products to the grid
-    products.forEach(product => {
-        const productItem = document.createElement('div');
-        productItem.className = 'product-item';
-        
-        productItem.innerHTML = `
-            <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" loading="lazy">
-            </div>
-            <div class="product-info">
-                <h4>${product.name}</h4>
-                <p>${product.description}</p>
-            </div>
-        `;
-        
-        // Add click event to open purchase modal
-        productItem.addEventListener('click', () => {
-            openPurchaseModal(product.name);
-        });
-        
-        productGrid.appendChild(productItem);
+    // Add special product at the top
+    addProductToGrid(specialProduct, productGrid, true);
+    
+    // Add regular products
+    regularProducts.forEach(product => {
+        addProductToGrid(product, productGrid, false);
     });
+    
+    // Add special product at the bottom too
+    addProductToGrid(specialProduct, productGrid, true);
+}
+
+// Function to add a product to the grid
+function addProductToGrid(product, grid, isSpecial) {
+    const productItem = document.createElement('div');
+    productItem.className = 'product-item' + (isSpecial ? ' special-product' : '');
+    
+    productItem.innerHTML = `
+        <div class="product-image">
+            <img src="${product.image}" alt="${product.name}" loading="lazy">
+        </div>
+        <div class="product-info">
+            <h4>${product.name}</h4>
+            <p>${product.description}</p>
+        </div>
+    `;
+    
+    // Add click event to open purchase modal or special link
+    productItem.addEventListener('click', () => {
+        if (product.isSpecial && product.link) {
+            window.open(product.link, '_blank');
+        } else {
+            openPurchaseModal(product.name);
+        }
+    });
+    
+    // Xử lý ảnh lỗi
+    const img = productItem.querySelector('img');
+    img.onerror = function() {
+        this.style.display = 'none';
+        this.parentElement.classList.add('img-error');
+    };
+    
+    grid.appendChild(productItem);
 }
 
 // Open purchase modal

@@ -44,13 +44,6 @@
                     </a>
                 </div>
                 
-                <div class="products-section">
-                    <a href="#" class="product-button" id="viewProductsBtn">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>Xem Sản Phẩm</span>
-                    </a>
-                </div>
-                
                 <div class="product-showcase" id="productShowcase">
                     <h3>Sản Phẩm Hiện Có</h3>
                     <div class="product-grid" id="productGrid">
@@ -86,6 +79,22 @@
         </div>
     </div>
     
+    <!-- Sticky Footer: Xem Sản Phẩm -->
+    <footer id="sticky-footer" class="sticky-footer">
+        <button class="product-button" id="viewProductsBtn">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Xem Sản Phẩm</span>
+        </button>
+    </footer>
+    <!-- Chatbot Popup -->
+    <div id="chatbot-popup" class="chatbot-popup">
+        <div id="chatbot-message" class="chatbot-message">Bạn cần mua gì? Nhấn vào đây để tư vấn</div>
+        <div id="chatbot-window" class="chatbot-window" style="display:none;">
+            <div class="chatbot-header">Tư vấn mua hàng <span id="chatbot-close" style="cursor:pointer;float:right;">&times;</span></div>
+            <div class="chatbot-body">Xin chào! Bạn cần tư vấn sản phẩm nào?</div>
+            <a href="https://zalo.me/0825280204" target="_blank" class="chatbot-zalo-btn">Tư vấn qua Zalo</a>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html> 
