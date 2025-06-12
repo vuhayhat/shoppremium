@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatbotPopup = document.getElementById('chatbot-popup');
     const chatbotMessage = document.getElementById('chatbot-message');
     const chatbotWindow = document.getElementById('chatbot-window');
-    const chatbotClose = document.getElementById('chatbot-close');
     
     let isChatbotOpen = false;
     
@@ -63,11 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             openChatbot();
         }
-    });
-    
-    // Đóng chatbot khi nhấn nút đóng
-    chatbotClose.addEventListener('click', function() {
-        closeChatbot();
     });
     
     // Xử lý các câu hỏi có sẵn
