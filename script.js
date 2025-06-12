@@ -49,18 +49,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Chatbot functionality
     const chatbotButton = document.getElementById('chatbot-button');
     const chatbotPopup = document.getElementById('chatbot-popup');
-    const chatbotMessage = document.getElementById('chatbot-message');
     const chatbotWindow = document.getElementById('chatbot-window');
     
     let isChatbotOpen = false;
+    let isDragging = false;
+    let wasDragging = false;
+    let dragOffsetX, dragOffsetY;
     
     // Hiển thị cửa sổ chat khi nhấn vào nút chatbot
     chatbotButton.addEventListener('click', function(e) {
         e.stopPropagation();
-        if (isChatbotOpen) {
-            closeChatbot();
-        } else {
-            openChatbot();
+        if (!wasDragging) {
+            if (isChatbotOpen) {
+                closeChatbot();
+            } else {
+                openChatbot();
+            }
         }
     });
     
@@ -99,19 +103,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function openChatbot() {
         isChatbotOpen = true;
-        chatbotWindow.style.display = 'flex';
+        chatbotPopup.style.display = 'flex';
+        
         setTimeout(() => {
             chatbotWindow.style.opacity = '1';
-            chatbotWindow.style.transform = 'translateY(0) rotateX(0)';
         }, 10);
     }
     
     function closeChatbot() {
         isChatbotOpen = false;
         chatbotWindow.style.opacity = '0';
-        chatbotWindow.style.transform = 'translateY(20px) rotateX(-10deg)';
+        
         setTimeout(() => {
-            chatbotWindow.style.display = 'none';
+            chatbotPopup.style.display = 'none';
         }, 300);
         
         // Reset trạng thái các câu hỏi
@@ -124,18 +128,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Cho phép kéo/thả nút chatbot
-    let isDragging = false;
-    let dragOffsetX, dragOffsetY;
-    
     chatbotButton.addEventListener('mousedown', function(e) {
-        isDragging = true;
+        isDragging = false;
+        wasDragging = false;
         dragOffsetX = e.clientX - chatbotButton.getBoundingClientRect().left;
         dragOffsetY = e.clientY - chatbotButton.getBoundingClientRect().top;
         chatbotButton.style.cursor = 'grabbing';
     });
     
+    chatbotButton.addEventListener('touchstart', function(e) {
+        isDragging = false;
+        wasDragging = false;
+        const touch = e.touches[0];
+        dragOffsetX = touch.clientX - chatbotButton.getBoundingClientRect().left;
+        dragOffsetY = touch.clientY - chatbotButton.getBoundingClientRect().top;
+        chatbotButton.style.cursor = 'grabbing';
+    });
+    
     document.addEventListener('mousemove', function(e) {
+        if (isDragging === false && dragOffsetX !== undefined) {
+            // Chỉ bắt đầu kéo khi di chuyển một khoảng nhất định
+            const moveX = Math.abs(e.clientX - chatbotButton.getBoundingClientRect().left - dragOffsetX);
+            const moveY = Math.abs(e.clientY - chatbotButton.getBoundingClientRect().top - dragOffsetY);
+            if (moveX > 5 || moveY > 5) {
+                isDragging = true;
+            }
+        }
+        
         if (isDragging) {
+            wasDragging = true;
             const x = e.clientX - dragOffsetX;
             const y = e.clientY - dragOffsetY;
             
@@ -153,12 +174,93 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    document.addEventListener('touchmove', function(e) {
+        if (isDragging === false && dragOffsetX !== undefined) {
+            const touch = e.touches[0];
+            // Chỉ bắt đầu kéo khi di chuyển một khoảng nhất định
+            const moveX = Math.abs(touch.clientX - chatbotButton.getBoundingClientRect().left - dragOffsetX);
+            const moveY = Math.abs(touch.clientY - chatbotButton.getBoundingClientRect().top - dragOffsetY);
+            if (moveX > 5 || moveY > 5) {
+                isDragging = true;
+                e.preventDefault(); // Ngăn chặn hành vi mặc định khi kéo
+            }
+        }
+        
+        if (isDragging) {
+            wasDragging = true;
+            const touch = e.touches[0];
+            const x = touch.clientX - dragOffsetX;
+            const y = touch.clientY - dragOffsetY;
+            
+            // Giới hạn trong viewport
+            const maxX = window.innerWidth - chatbotButton.offsetWidth;
+            const maxY = window.innerHeight - chatbotButton.offsetHeight;
+            
+            const boundedX = Math.min(Math.max(0, x), maxX);
+            const boundedY = Math.min(Math.max(0, y), maxY);
+            
+            chatbotButton.style.left = boundedX + 'px';
+            chatbotButton.style.top = boundedY + 'px';
+            chatbotButton.style.right = 'auto';
+            chatbotButton.style.bottom = 'auto';
+            e.preventDefault(); // Ngăn chặn hành vi mặc định khi kéo
+        }
+    }, { passive: false });
+    
     document.addEventListener('mouseup', function() {
         if (isDragging) {
-            isDragging = false;
-            chatbotButton.style.cursor = 'pointer';
+            // Lưu vị trí vào localStorage
+            const rect = chatbotButton.getBoundingClientRect();
+            localStorage.setItem('chatbotX', rect.left);
+            localStorage.setItem('chatbotY', rect.top);
         }
+        
+        // Đặt lại trạng thái sau một khoảng thời gian ngắn
+        setTimeout(() => {
+            wasDragging = false;
+        }, 100);
+        
+        isDragging = false;
+        dragOffsetX = undefined;
+        dragOffsetY = undefined;
+        chatbotButton.style.cursor = 'pointer';
     });
+    
+    document.addEventListener('touchend', function() {
+        if (isDragging) {
+            // Lưu vị trí vào localStorage
+            const rect = chatbotButton.getBoundingClientRect();
+            localStorage.setItem('chatbotX', rect.left);
+            localStorage.setItem('chatbotY', rect.top);
+        }
+        
+        // Đặt lại trạng thái sau một khoảng thời gian ngắn
+        setTimeout(() => {
+            wasDragging = false;
+        }, 100);
+        
+        isDragging = false;
+        dragOffsetX = undefined;
+        dragOffsetY = undefined;
+        chatbotButton.style.cursor = 'pointer';
+    });
+    
+    // Khôi phục vị trí đã lưu
+    const savedX = localStorage.getItem('chatbotX');
+    const savedY = localStorage.getItem('chatbotY');
+    
+    if (savedX && savedY) {
+        chatbotButton.style.left = savedX + 'px';
+        chatbotButton.style.top = savedY + 'px';
+        chatbotButton.style.right = 'auto';
+        chatbotButton.style.bottom = 'auto';
+    } else {
+        // Vị trí mặc định ở bên trái màn hình
+        chatbotButton.style.left = '20px';
+        chatbotButton.style.bottom = '80px';
+        chatbotButton.style.right = 'auto';
+        chatbotButton.style.top = 'auto';
+    }
     
     // Đóng chatbot khi nhấn nút Escape
     document.addEventListener('keydown', function(e) {

@@ -161,17 +161,17 @@ body {
 
 .profile-header {
     background: linear-gradient(135deg, #4a1b6d 0%, #6a3399 100%);
-    padding: 30px 20px;
+    padding: 5px 5px;
     text-align: center;
     color: white;
 }
 
 .profile-img {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    margin: 0 auto 15px;
-    border: 5px solid rgba(255, 255, 255, 0.3);
+    margin: 0 auto 10px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
     overflow: hidden;
     background: url('https://via.placeholder.com/150/8a2be2/FFFFFF?text=Profile') center center/cover;
 }
@@ -184,25 +184,26 @@ body {
 }
 
 .profile-name h2 {
-    font-size: 24px;
-    margin-bottom: 5px;
+    font-size: 22px;
+    margin-bottom: 3px;
 }
 
 .profile-name p {
-    font-size: 16px;
+    font-size: 14px;
     opacity: 0.9;
 }
 
 .profile-content {
-    padding: 30px 20px;
+    padding: 25px 15px;
     color: #ddd;
 }
 
 .bio {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     color: #bbb;
-    line-height: 1.6;
+    line-height: 1.5;
+    font-size: 0.95rem;
 }
 
 .social-links {
@@ -266,20 +267,27 @@ body {
     }
     
     .profile-img {
-        width: 90px;
-        height: 90px;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 8px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
     }
     
     .profile-header {
-        padding: 15px 10px;
+        padding: 12px 10px;
     }
     
     .profile-name h2 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+        margin-bottom: 2px;
     }
     
     .profile-name p {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+    }
+    
+    .profile-content {
+        padding: 20px 12px;
     }
     
     .social-link {
@@ -302,6 +310,12 @@ body {
     
     .product-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .bio {
+        margin-bottom: 15px;
+        line-height: 1.4;
+        font-size: 0.9rem;
     }
 }
 
@@ -589,11 +603,10 @@ body {
 /* Cyberpunk/Futuristic Chatbot Styles */
 .chatbot-button {
     position: fixed;
-    top: 50%;
-    right: 30px;
-    transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
+    bottom: 80px;
+    left: 20px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
     background: linear-gradient(135deg, rgba(89, 0, 255, 0.8) 0%, rgba(0, 247, 255, 0.8) 100%);
     box-shadow: 
@@ -604,16 +617,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: grab;
+    cursor: pointer;
     z-index: 9998;
     transition: all 0.3s ease;
     transform-style: preserve-3d;
     user-select: none;
-    touch-action: none;
+    touch-action: manipulation;
+    animation: chatbot-pulse 1.5s infinite alternate, chatbot-bounce 5s infinite, chatbot-flash 7s infinite;
 }
 
 .chatbot-button:active {
-    cursor: grabbing;
+    transform: scale(0.95);
 }
 
 .chatbot-button::before {
@@ -631,30 +645,113 @@ body {
 
 @keyframes pulse-ring {
     0% { transform: scale(1); opacity: 0.8; }
-    70% { transform: scale(1.3); opacity: 0; }
+    70% { transform: scale(1.5); opacity: 0; }
     100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes chatbot-pulse {
+    0% { 
+        box-shadow: 
+            0 0 15px rgba(0, 247, 255, 0.4),
+            0 0 30px rgba(89, 0, 255, 0.2),
+            inset 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    100% { 
+        box-shadow: 
+            0 0 30px rgba(0, 247, 255, 0.8),
+            0 0 60px rgba(89, 0, 255, 0.6),
+            inset 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+}
+
+@keyframes chatbot-bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-12px);}
+    60% {transform: translateY(-6px);}
+}
+
+@keyframes chatbot-flash {
+    0%, 15%, 22%, 45%, 100% { filter: brightness(1); }
+    17%, 20%, 47% { filter: brightness(1.8); }
 }
 
 .chatbot-button i {
     color: #fff;
-    font-size: 22px;
+    font-size: 30px;
     text-shadow: 0 0 10px rgba(0, 247, 255, 0.8);
+    animation: icon-pulse 1s infinite alternate;
+    position: relative;
+}
+
+.chatbot-button i::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    opacity: 0;
+    animation: icon-flare 3s infinite;
+}
+
+@keyframes icon-flare {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+@keyframes icon-pulse {
+    0% { text-shadow: 0 0 10px rgba(0, 247, 255, 0.8); }
+    100% { text-shadow: 0 0 20px rgba(0, 247, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 40px rgba(89, 0, 255, 0.6); }
 }
 
 .chatbot-button:hover {
-    transform: translateY(-50%) scale(1.1);
+    transform: scale(1.15);
+    animation-play-state: paused;
 }
 
 .chatbot-popup {
     position: fixed;
-    top: 50%;
-    right: 100px;
-    transform: translateY(-50%);
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    filter: drop-shadow(0 0 15px rgba(89, 0, 255, 0.3));
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.chatbot-window {
+    width: 320px;
+    max-height: 500px;
+    background: rgba(10, 14, 25, 0.95);
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 
+        0 0 20px rgba(0, 247, 255, 0.4),
+        0 0 40px rgba(89, 0, 255, 0.2),
+        inset 0 0 15px rgba(0, 247, 255, 0.2);
+    border: 1px solid rgba(0, 247, 255, 0.6);
+    border-left: 4px solid;
+    border-image: linear-gradient(to bottom, #00f7ff, #5900ff) 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    margin: 0 20px;
+}
+
+@media (max-width: 600px) {
+    .chatbot-window {
+        width: 90%;
+        max-width: 350px;
+        max-height: 80vh;
+    }
 }
 
 .chatbot-message {
@@ -683,46 +780,17 @@ body {
     transform: perspective(500px) rotateX(0deg);
 }
 
-.chatbot-message:hover {
-    transform: perspective(500px) rotateX(5deg) scale(1.03);
-    box-shadow: 
-        0 8px 25px rgba(0, 247, 255, 0.35),
-        inset 0 0 15px rgba(89, 0, 255, 0.4);
-}
-
-@keyframes chatbot-pulse {
-    0% { 
-        box-shadow: 
-            0 4px 20px rgba(0, 247, 255, 0.25),
-            inset 0 0 10px rgba(89, 0, 255, 0.3);
-        text-shadow: 0 0 5px #00f7ff;
-    }
-    50% { 
-        box-shadow: 
-            0 4px 25px rgba(0, 247, 255, 0.4),
-            inset 0 0 15px rgba(89, 0, 255, 0.5);
-        text-shadow: 0 0 10px #00f7ff, 0 0 20px rgba(0, 247, 255, 0.4);
-    }
-    100% { 
-        box-shadow: 
-            0 4px 20px rgba(0, 247, 255, 0.25),
-            inset 0 0 10px rgba(89, 0, 255, 0.3);
-        text-shadow: 0 0 5px #00f7ff;
-    }
-}
-
 /* Mũi tên chỉ vào nút chat bot */
 .chatbot-message::after {
     content: '';
     position: absolute;
-    top: 50%;
-    right: -15px;
-    transform: translateY(-50%);
+    bottom: -15px;
+    right: 15px;
     width: 0;
     height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 15px solid rgba(15, 15, 35, 0.7);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid rgba(15, 15, 35, 0.7);
     filter: drop-shadow(0 0 5px rgba(0, 247, 255, 0.4));
 }
 
@@ -730,168 +798,95 @@ body {
 .chatbot-message::before {
     content: '';
     position: absolute;
-    top: 50%;
-    right: -17px;
-    transform: translateY(-50%);
+    bottom: -17px;
+    right: 13px;
     width: 0;
     height: 0;
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    border-left: 17px solid rgba(0, 247, 255, 0.2);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 17px solid rgba(0, 247, 255, 0.2);
     filter: blur(3px);
     z-index: -1;
 }
 
-@media (max-width: 600px) {
-    .chatbot-button {
-        right: 15px;
-        width: 45px;
-        height: 45px;
-    }
-    
-    .chatbot-popup {
-        right: 75px;
-    }
-    
-    .chatbot-message {
-        max-width: 180px;
-        font-size: 0.85rem;
-        padding: 10px 16px;
-    }
-    
-    .chatbot-window {
-        width: 260px;
-    }
-}
-
-.chatbot-window {
-    width: 320px;
-    background: #0d1020;
-    border-radius: 15px;
-    box-shadow: 
-        0 8px 32px rgba(0, 247, 255, 0.25),
-        0 0 20px rgba(89, 0, 255, 0.2),
-        inset 0 0 2px rgba(0, 247, 255, 0.4);
-    padding: 0;
-    overflow: hidden;
-    border: 1px solid rgba(0, 247, 255, 0.4);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transform: perspective(500px) rotateX(0deg);
+.chatbot-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 450px;
+    overflow-y: auto;
     position: relative;
-    animation: chatbot-glow 3s infinite alternate;
-}
-
-@keyframes chatbot-glow {
-    0% {
-        box-shadow: 
-            0 8px 32px rgba(0, 247, 255, 0.25),
-            0 0 20px rgba(89, 0, 255, 0.2),
-            inset 0 0 2px rgba(0, 247, 255, 0.4);
-    }
-    100% {
-        box-shadow: 
-            0 8px 32px rgba(0, 247, 255, 0.35),
-            0 0 30px rgba(89, 0, 255, 0.3),
-            inset 0 0 4px rgba(0, 247, 255, 0.5);
-    }
-}
-
-/* Add blue left border */
-.chatbot-window::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 15px;
-    background: linear-gradient(to bottom, #5900ff, #00f7ff);
-    z-index: 1;
-    border-radius: 15px 0 0 15px;
-}
-
-/* Add top scan line */
-.chatbot-window::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.8), transparent);
-    animation: cyber-scan 2s linear infinite;
     z-index: 2;
 }
 
-.chatbot-body {
-    padding: 16px;
-    color: #e0f7ff;
-    font-size: 0.95rem;
-    text-shadow: 0 0 2px rgba(0, 247, 255, 0.5);
-    position: relative;
-    z-index: 1;
-    line-height: 1.5;
-    background: transparent;
-    border-radius: 0 0 15px 15px;
+.chatbot-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chatbot-body::-webkit-scrollbar-thumb {
+    background: rgba(0, 247, 255, 0.5);
+    border-radius: 10px;
+}
+
+.chatbot-body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
 
 .chatbot-zalo-btn {
-    display: block;
-    background: linear-gradient(90deg, #5900ff 0%, #00f7ff 100%);
-    color: #fff;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     padding: 12px 0;
+    background: linear-gradient(90deg, #0068ff 0%, #00c6ff 100%);
+    color: white;
     text-decoration: none;
+    border-radius: 50px;
     font-weight: bold;
+    text-transform: uppercase;
     font-size: 0.9rem;
-    border-radius: 10px;
-    margin: 10px auto;
-    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    margin-top: 15px;
     position: relative;
     overflow: hidden;
-    text-shadow: 0 0 5px rgba(0, 247, 255, 0.8);
-    box-shadow: 0 0 10px rgba(0, 247, 255, 0.2);
-    min-width: 140px;
-    max-width: 100%;
-    height: auto;
-    line-height: 1.2;
-}
-
-.chatbot-zalo-btn + .chatbot-zalo-btn {
-    background: linear-gradient(90deg, #1877f2 0%, #00f7ff 100%);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 247, 255, 0.4);
+    box-shadow: 0 5px 15px rgba(0, 198, 255, 0.3);
 }
 
 .chatbot-zalo-btn .cyber-icon {
-    font-size: 1em;
-    margin-right: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chatbot-zalo-btn i.fab {
-    font-size: 1em;
+    font-size: 1.1em;
 }
 
 .chatbot-zalo-btn::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-    transform: rotate(45deg);
-    animation: cyber-button-shine 3s linear infinite;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.6s ease;
+    animation: cyber-button-shine 3s infinite;
 }
 
 @keyframes cyber-button-shine {
-    0% { transform: translateX(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) rotate(45deg); }
+    0% { left: -100%; }
+    20% { left: 100%; }
+    100% { left: 100%; }
 }
 
 .chatbot-zalo-btn:hover {
-    background: linear-gradient(90deg, rgba(89, 0, 255, 0.9) 0%, rgba(0, 247, 255, 0.9) 100%);
-    box-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 198, 255, 0.5);
 }
 
 #chatbot-close {
@@ -1116,23 +1111,27 @@ body {
 }
 
 .cyber-line {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.5), transparent);
-    margin: 5px 0 15px 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.8), transparent);
+    margin: 5px 0 15px;
     position: relative;
+    overflow: hidden;
 }
 
 .cyber-line::before {
     content: '';
     position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #00f7ff;
-    border-radius: 50%;
-    top: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 0 0 10px rgba(0, 247, 255, 0.8);
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    animation: cyber-scan 2s linear infinite;
+}
+
+@keyframes cyber-scan {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 .cyber-greeting {
@@ -1190,20 +1189,17 @@ body {
 }
 
 .cyber-question-btn {
-    background: rgba(15, 15, 35, 0.5);
-    border: 1px solid rgba(0, 247, 255, 0.4);
-    color: #00f7ff;
-    text-shadow: 0 0 5px rgba(0, 247, 255, 0.6);
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 247, 255, 0.3);
+    color: #fff;
     padding: 12px 15px;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    text-align: left;
+    font-size: 0.95rem;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(5px);
-    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    text-align: left;
 }
 
 .cyber-question-btn::before {
@@ -1214,14 +1210,14 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.1), transparent);
-    transition: 0.5s;
+    transition: all 0.6s ease;
 }
 
 .cyber-question-btn:hover {
-    background: rgba(0, 247, 255, 0.15);
-    border: 1px solid rgba(0, 247, 255, 0.6);
-    box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
-    transform: translateX(3px);
+    background: rgba(0, 247, 255, 0.1);
+    border-color: rgba(0, 247, 255, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 247, 255, 0.2);
 }
 
 .cyber-question-btn:hover::before {
@@ -1229,15 +1225,17 @@ body {
 }
 
 .cyber-answer {
-    background: rgba(89, 0, 255, 0.1);
-    border-left: 2px solid rgba(0, 247, 255, 0.6);
-    padding: 10px;
-    margin: 5px 0;
-    color: #e0f7ff;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 247, 255, 0.2);
+    border-left: 3px solid #00f7ff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 5px;
+    display: none;
+    color: #ddd;
     font-size: 0.9rem;
     line-height: 1.5;
-    display: none;
-    animation: cyber-fade-in 0.3s forwards;
+    animation: cyber-fade-in 0.5s ease;
 }
 
 @keyframes cyber-fade-in {
@@ -1247,33 +1245,69 @@ body {
 
 .cyber-typing {
     display: inline-block;
-    width: 12px;
-    height: 12px;
-    background: #00f7ff;
+    width: 10px;
+    height: 10px;
+    background-color: #00f7ff;
     border-radius: 50%;
     margin-right: 5px;
     animation: cyber-typing 1s infinite;
+    vertical-align: middle;
 }
 
 @keyframes cyber-typing {
-    0% { opacity: 0.3; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0.3; transform: scale(0.8); }
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
 }
 
 .cyber-answer-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    font-weight: bold;
     color: #00f7ff;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    font-family: monospace;
+    letter-spacing: 1px;
 }
 
 .cyber-question-btn.active {
-    background: rgba(0, 247, 255, 0.2);
-    border: 1px solid rgba(0, 247, 255, 0.8);
-    box-shadow: 0 0 15px rgba(0, 247, 255, 0.4), inset 0 0 5px rgba(0, 247, 255, 0.2);
-    transform: translateX(5px);
+    background: rgba(0, 247, 255, 0.15);
+    border-color: rgba(0, 247, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.cyber-question-btn i {
+    margin-right: 8px;
+    color: #00f7ff;
+    text-shadow: 0 0 5px rgba(0, 247, 255, 0.7);
+    font-size: 0.9em;
+    vertical-align: middle;
+}
+
+.chatbot-zalo-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 0;
+    background: linear-gradient(90deg, #0068ff 0%, #00c6ff 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    margin-top: 15px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 247, 255, 0.4);
+    box-shadow: 0 5px 15px rgba(0, 198, 255, 0.3);
+}
+
+.chatbot-zalo-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 198, 255, 0.5);
 }
 
 @keyframes cyber-scan {
@@ -1293,130 +1327,18 @@ body {
 
 /* Hologram scan effect */
 .chatbot-window .hologram-scan {
-    content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(0, 247, 255, 0.05) 50%,
-        transparent 100%
-    );
-    animation: cyber-scan-vertical 8s linear infinite;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.8), transparent);
+    z-index: 10;
+    animation: cyber-scan-vertical 3s linear infinite;
     pointer-events: none;
-    z-index: 2;
 }
 
 @keyframes cyber-scan-vertical {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100%); }
-}
-
-.cyber-questions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.cyber-question-btn {
-    background: rgba(15, 15, 35, 0.5);
-    border: 1px solid rgba(0, 247, 255, 0.4);
-    color: #00f7ff;
-    text-shadow: 0 0 5px rgba(0, 247, 255, 0.6);
-    padding: 12px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    text-align: left;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(5px);
-    margin-bottom: 8px;
-}
-
-.cyber-question-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.1), transparent);
-    transition: 0.5s;
-}
-
-.cyber-question-btn:hover {
-    background: rgba(0, 247, 255, 0.15);
-    border: 1px solid rgba(0, 247, 255, 0.6);
-    box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
-    transform: translateX(3px);
-}
-
-.cyber-question-btn:hover::before {
-    left: 100%;
-}
-
-.cyber-answer {
-    background: rgba(89, 0, 255, 0.1);
-    border-left: 2px solid rgba(0, 247, 255, 0.6);
-    padding: 10px;
-    margin: 5px 0;
-    color: #e0f7ff;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    display: none;
-    animation: cyber-fade-in 0.3s forwards;
-}
-
-@keyframes cyber-fade-in {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.cyber-typing {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    background: #00f7ff;
-    border-radius: 50%;
-    margin-right: 5px;
-    animation: cyber-typing 1s infinite;
-}
-
-@keyframes cyber-typing {
-    0% { opacity: 0.3; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0.3; transform: scale(0.8); }
-}
-
-.cyber-answer-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #00f7ff;
-}
-
-.cyber-question-btn.active {
-    background: rgba(0, 247, 255, 0.2);
-    border: 1px solid rgba(0, 247, 255, 0.8);
-    box-shadow: 0 0 15px rgba(0, 247, 255, 0.4), inset 0 0 5px rgba(0, 247, 255, 0.2);
-    transform: translateX(5px);
-}
-
-.cyber-question-btn i {
-    color: #00f7ff;
-    margin-right: 8px;
-    font-size: 1.1em;
-    text-shadow: 0 0 10px rgba(0, 247, 255, 0.8);
-}
-
-.chatbot-zalo-btn i {
-    margin-right: 8px;
-    font-size: 1.1em;
+    0% { top: 0; }
+    100% { top: 100%; }
 } 
