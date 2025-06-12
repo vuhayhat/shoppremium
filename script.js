@@ -46,130 +46,142 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Cyberpunk Chatbot Logic
+    // Chatbot functionality
+    const chatbotButton = document.getElementById('chatbot-button');
     const chatbotPopup = document.getElementById('chatbot-popup');
     const chatbotMessage = document.getElementById('chatbot-message');
     const chatbotWindow = document.getElementById('chatbot-window');
     const chatbotClose = document.getElementById('chatbot-close');
-    let chatbotVisible = true;
-    let chatbotShowing = false;
     
-    // Cyberpunk hologram effect - hiển thị thông báo mỗi 3 giây
-    let chatbotInterval = setInterval(() => {
-        if (chatbotVisible) {
-            if (chatbotShowing) {
-                // Ẩn đi với hiệu ứng 3D
-                chatbotMessage.style.transform = 'perspective(500px) rotateX(45deg) scale(0.9)';
-                chatbotMessage.style.opacity = '0';
-                
-                setTimeout(() => {
-                    chatbotMessage.style.display = 'none';
-                    chatbotShowing = false;
-                    chatbotMessage.classList.remove('active');
-                }, 500);
-            } else {
-                // Hiện lên với hiệu ứng 3D
-                chatbotMessage.style.display = 'block';
-                chatbotMessage.style.transform = 'perspective(500px) rotateX(-45deg) scale(0.8)';
-                chatbotMessage.style.opacity = '0';
-                
-                setTimeout(() => {
-                    chatbotMessage.style.transform = 'perspective(500px) rotateX(0deg) scale(1)';
-                    chatbotMessage.style.opacity = '1';
-                    chatbotShowing = true;
-                    chatbotMessage.classList.add('active');
-                    
-                    // Phát âm thanh futuristic (nếu muốn)
-                    // playFuturisticSound();
-                    
-                    // Tự động ẩn sau 2 giây
-                    setTimeout(() => {
-                        if (chatbotShowing) {
-                            chatbotMessage.style.transform = 'perspective(500px) rotateX(45deg) scale(0.9)';
-                            chatbotMessage.style.opacity = '0';
-                            
-                            setTimeout(() => {
-                                chatbotMessage.style.display = 'none';
-                                chatbotShowing = false;
-                                chatbotMessage.classList.remove('active');
-                            }, 500);
-                        }
-                    }, 2000);
-                }, 10);
-            }
+    let isChatbotOpen = false;
+    
+    // Hiển thị cửa sổ chat khi nhấn vào nút chatbot
+    chatbotButton.addEventListener('click', function() {
+        if (isChatbotOpen) {
+            // Đóng chatbot nếu đang mở
+            closeChatbot();
+        } else {
+            // Mở chatbot nếu đang đóng
+            openChatbot();
         }
-    }, 3000);
-    
-    // Hiệu ứng 3D khi hover
-    chatbotMessage.addEventListener('mousemove', function(e) {
-        if (!chatbotShowing) return;
-        
-        const x = e.offsetX;
-        const y = e.offsetY;
-        const width = this.offsetWidth;
-        const height = this.offsetHeight;
-        
-        const rotateY = (x - width/2) / 20;
-        const rotateX = (height/2 - y) / 20;
-        
-        this.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
     
-    chatbotMessage.addEventListener('mouseleave', function() {
-        if (!chatbotShowing) return;
-        this.style.transform = 'perspective(500px) rotateX(0deg) rotateY(0deg)';
-    });
-    
-    // Click event với hiệu ứng 3D
-    chatbotMessage.addEventListener('click', function() {
-        this.style.transform = 'perspective(500px) rotateX(90deg) scale(0.8)';
-        this.style.opacity = '0';
-        
-        setTimeout(() => {
-            this.style.display = 'none';
-            chatbotWindow.style.display = 'block';
-            chatbotWindow.style.transform = 'perspective(500px) rotateX(-30deg) scale(0.8)';
-            chatbotWindow.style.opacity = '0';
-            
-            setTimeout(() => {
-                chatbotWindow.style.transform = 'perspective(500px) rotateX(0deg) scale(1)';
-                chatbotWindow.style.opacity = '1';
-            }, 10);
-            
-            chatbotVisible = false;
-            chatbotShowing = false;
-            this.classList.remove('active');
-        }, 300);
-    });
-    
-    // Close button với hiệu ứng 3D
+    // Đóng chatbot khi nhấn nút đóng
     chatbotClose.addEventListener('click', function() {
-        chatbotWindow.style.transform = 'perspective(500px) rotateX(30deg) scale(0.8)';
+        closeChatbot();
+    });
+    
+    // Xử lý các câu hỏi có sẵn
+    const questionButtons = document.querySelectorAll('.cyber-question-btn');
+    
+    questionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const questionId = this.getAttribute('data-question');
+            const answerElement = document.getElementById('answer-' + questionId);
+            
+            // Ẩn tất cả các câu trả lời khác
+            document.querySelectorAll('.cyber-answer').forEach(answer => {
+                if (answer !== answerElement) {
+                    answer.style.display = 'none';
+                }
+            });
+            
+            // Hiển thị/ẩn câu trả lời được chọn
+            if (answerElement.style.display === 'block') {
+                answerElement.style.display = 'none';
+            } else {
+                // Hiệu ứng typing trước khi hiển thị câu trả lời
+                setTimeout(() => {
+                    answerElement.style.display = 'block';
+                }, 300);
+                
+                // Thêm hiệu ứng highlight cho nút được chọn
+                questionButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            }
+        });
+    });
+    
+    function openChatbot() {
+        isChatbotOpen = true;
+        chatbotWindow.style.display = 'flex';
+        setTimeout(() => {
+            chatbotWindow.style.opacity = '1';
+            chatbotWindow.style.transform = 'translateY(0) rotateX(0)';
+        }, 10);
+    }
+    
+    function closeChatbot() {
+        isChatbotOpen = false;
         chatbotWindow.style.opacity = '0';
-        
+        chatbotWindow.style.transform = 'translateY(20px) rotateX(-10deg)';
         setTimeout(() => {
             chatbotWindow.style.display = 'none';
-            chatbotVisible = true;
         }, 300);
+        
+        // Reset trạng thái các câu hỏi
+        document.querySelectorAll('.cyber-answer').forEach(answer => {
+            answer.style.display = 'none';
+        });
+        document.querySelectorAll('.cyber-question-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+    }
+    
+    // Cho phép kéo/thả nút chatbot
+    let isDragging = false;
+    let dragOffsetX, dragOffsetY;
+    
+    chatbotButton.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        dragOffsetX = e.clientX - chatbotButton.getBoundingClientRect().left;
+        dragOffsetY = e.clientY - chatbotButton.getBoundingClientRect().top;
+        chatbotButton.style.cursor = 'grabbing';
     });
     
-    // Thêm hiệu ứng glitch ngẫu nhiên
-    setInterval(() => {
-        if (chatbotShowing || chatbotWindow.style.display === 'block') {
-            const glitchElement = chatbotShowing ? chatbotMessage : chatbotWindow;
-            glitchElement.style.clipPath = 'inset(0 0 0 0)';
+    document.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+            const x = e.clientX - dragOffsetX;
+            const y = e.clientY - dragOffsetY;
             
-            setTimeout(() => {
-                const glitchY = Math.random() * 10;
-                const glitchX = Math.random() * 10;
-                glitchElement.style.clipPath = `inset(${glitchY}px ${glitchX}px ${glitchY}px ${glitchX}px)`;
-                
-                setTimeout(() => {
-                    glitchElement.style.clipPath = 'inset(0 0 0 0)';
-                }, 100);
-            }, 2000);
+            // Giới hạn trong viewport
+            const maxX = window.innerWidth - chatbotButton.offsetWidth;
+            const maxY = window.innerHeight - chatbotButton.offsetHeight;
+            
+            const boundedX = Math.min(Math.max(0, x), maxX);
+            const boundedY = Math.min(Math.max(0, y), maxY);
+            
+            chatbotButton.style.left = boundedX + 'px';
+            chatbotButton.style.top = boundedY + 'px';
+            chatbotButton.style.right = 'auto';
+            chatbotButton.style.bottom = 'auto';
         }
-    }, 5000);
+    });
+    
+    document.addEventListener('mouseup', function() {
+        if (isDragging) {
+            isDragging = false;
+            chatbotButton.style.cursor = 'pointer';
+        }
+    });
+    
+    // Đóng chatbot khi nhấn nút Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isChatbotOpen) {
+            closeChatbot();
+        }
+    });
+    
+    // Đóng chatbot khi nhấn vào bên ngoài
+    document.addEventListener('click', function(e) {
+        if (isChatbotOpen && 
+            !chatbotWindow.contains(e.target) && 
+            e.target !== chatbotButton) {
+            closeChatbot();
+        }
+    });
 
     // Update social links
     const fbLink = document.querySelector('.social-link.facebook');

@@ -91,9 +91,6 @@
         <i class="fas fa-comment-dots"></i>
     </div>
     <div id="chatbot-popup" class="chatbot-popup">
-        <div id="chatbot-message" class="chatbot-message" style="display:none; opacity:0;">
-            <span class="cyber-icon">⟁</span> Cần hỗ trợ? Nhấn để kết nối
-        </div>
         <div id="chatbot-window" class="chatbot-window" style="display:none; opacity:0;">
             <div class="chatbot-header">
                 <span class="cyber-icon">⟁</span> SYSTEM.CONNECT
@@ -102,9 +99,66 @@
             <div class="chatbot-body">
                 <div class="cyber-line"></div>
                 <div class="cyber-greeting">
-                    <span class="cyber-text">> Xin chào, USER_01</span>
-                    <span class="cyber-text">> Bạn cần hỗ trợ gì?</span>
-                    <span class="cyber-text blink">> Đang chờ phản hồi...</span>
+                    <span class="cyber-text">Chọn câu hỏi bên dưới hoặc nhấn Zalo để liên hệ.</span>
+                </div>
+                
+                <!-- Các câu hỏi có sẵn -->
+                <div class="cyber-questions">
+                    <button class="cyber-question-btn" data-question="price">
+                        <i class="fas fa-tag"></i> Giá các sản phẩm là bao nhiêu?
+                    </button>
+                    <div id="answer-price" class="cyber-answer">
+                        <div class="cyber-answer-header">
+                            <span class="cyber-typing"></span> SYSTEM.RESPONSE
+                        </div>
+                        Giá sản phẩm của chúng tôi phụ thuộc vào gói và thời hạn đăng ký:
+                        <br>- Canva Pro: 200.000đ/tháng
+                        <br>- YouTube Premium: 150.000đ/tháng
+                        <br>- Capcut Pro: 180.000đ/tháng
+                        <br>- Microsoft 365: 250.000đ/tháng
+                        <br><br>Liên hệ qua Zalo để biết chi tiết về các gói dài hạn và ưu đãi.
+                    </div>
+                    
+                    <button class="cyber-question-btn" data-question="payment">
+                        <i class="fas fa-credit-card"></i> Phương thức thanh toán?
+                    </button>
+                    <div id="answer-payment" class="cyber-answer">
+                        <div class="cyber-answer-header">
+                            <span class="cyber-typing"></span> SYSTEM.RESPONSE
+                        </div>
+                        Chúng tôi hỗ trợ nhiều phương thức thanh toán:
+                        <br>- Chuyển khoản ngân hàng
+                        <br>- Ví điện tử (MoMo, ZaloPay, VNPay)
+                        <br>- Thẻ tín dụng/ghi nợ
+                        <br><br>Sau khi đặt hàng, bạn sẽ nhận được hướng dẫn thanh toán chi tiết qua Zalo.
+                    </div>
+                    
+                    <button class="cyber-question-btn" data-question="delivery">
+                        <i class="fas fa-clock"></i> Thời gian kích hoạt?
+                    </button>
+                    <div id="answer-delivery" class="cyber-answer">
+                        <div class="cyber-answer-header">
+                            <span class="cyber-typing"></span> SYSTEM.RESPONSE
+                        </div>
+                        Thời gian kích hoạt sản phẩm của chúng tôi rất nhanh:
+                        <br>- Trong giờ hành chính: 5-15 phút sau khi thanh toán
+                        <br>- Ngoài giờ hành chính: 15-60 phút sau khi thanh toán
+                        <br><br>Bạn sẽ nhận được thông tin tài khoản và hướng dẫn sử dụng qua Zalo.
+                    </div>
+                    
+                    <button class="cyber-question-btn" data-question="warranty">
+                        <i class="fas fa-shield-alt"></i> Chính sách bảo hành?
+                    </button>
+                    <div id="answer-warranty" class="cyber-answer">
+                        <div class="cyber-answer-header">
+                            <span class="cyber-typing"></span> SYSTEM.RESPONSE
+                        </div>
+                        Chúng tôi cam kết bảo hành sản phẩm trong suốt thời gian sử dụng:
+                        <br>- Hỗ trợ 24/7 qua Zalo
+                        <br>- Thay thế tài khoản mới nếu có lỗi
+                        <br>- Gia hạn thời gian nếu có sự cố
+                        <br><br>Liên hệ ngay khi gặp vấn đề để được hỗ trợ nhanh nhất.
+                    </div>
                 </div>
             </div>
             <a href="https://zalo.me/0825280204" target="_blank" class="chatbot-zalo-btn">
