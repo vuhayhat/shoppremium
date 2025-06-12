@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Kiểm tra thiết bị và điều chỉnh giao diện
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+    
     // Add a subtle animation to the profile card when the page loads
     const profileCard = document.querySelector('.profile-card');
     setTimeout(() => {
@@ -22,6 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 productShowcase.style.opacity = '1';
                 viewProductsBtn.innerHTML = '<i class="fas fa-times"></i><span>Đóng</span>';
+                // Cuộn đến vị trí của productShowcase nếu ở mobile
+                if (isMobile) {
+                    productShowcase.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }, 10);
         }
     });
@@ -56,6 +64,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let wasDragging = false;
     let dragOffsetX, dragOffsetY;
     
+    // Đặt vị trí ban đầu cho chatbot button dựa vào kích thước màn hình
+    if (isMobile) {
+        chatbotButton.style.bottom = '80px';
+        chatbotButton.style.left = '20px';
+        chatbotButton.style.width = isSmallMobile ? '55px' : '60px';
+        chatbotButton.style.height = isSmallMobile ? '55px' : '60px';
+    }
+    
     // Hiển thị cửa sổ chat khi nhấn vào nút chatbot
     chatbotButton.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -86,10 +102,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hiển thị/ẩn câu trả lời được chọn
             if (answerElement.style.display === 'block') {
                 answerElement.style.display = 'none';
+                this.classList.remove('active');
             } else {
                 // Hiệu ứng typing trước khi hiển thị câu trả lời
                 setTimeout(() => {
                     answerElement.style.display = 'block';
+                    // Cuộn xuống để hiển thị câu trả lời nếu ở mobile
+                    if (isMobile) {
+                        setTimeout(() => {
+                            answerElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 100);
+                    }
                 }, 300);
                 
                 // Thêm hiệu ứng highlight cho nút được chọn
@@ -107,7 +130,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         setTimeout(() => {
             chatbotWindow.style.opacity = '1';
+            
+            // Điều chỉnh kích thước và vị trí của cửa sổ chat trên mobile
+            if (isMobile) {
+                chatbotWindow.style.maxHeight = '80vh';
+                chatbotWindow.style.width = isSmallMobile ? '90%' : '85%';
+            }
         }, 10);
+        
+        // Thêm lớp để ngăn cuộn trang khi chatbot đang mở trên mobile
+        if (isMobile) {
+            document.body.classList.add('chatbot-open');
+        }
     }
     
     function closeChatbot() {
@@ -125,7 +159,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.cyber-question-btn').forEach(btn => {
             btn.classList.remove('active');
         });
+        
+        // Xóa lớp ngăn cuộn
+        document.body.classList.remove('chatbot-open');
     }
+    
+    // Đóng chatbot khi click bên ngoài
+    chatbotPopup.addEventListener('click', function(e) {
+        if (e.target === chatbotPopup) {
+            closeChatbot();
+        }
+    });
     
     // Cho phép kéo/thả nút chatbot
     chatbotButton.addEventListener('mousedown', function(e) {
@@ -203,78 +247,68 @@ document.addEventListener('DOMContentLoaded', function() {
             chatbotButton.style.top = boundedY + 'px';
             chatbotButton.style.right = 'auto';
             chatbotButton.style.bottom = 'auto';
-            e.preventDefault(); // Ngăn chặn hành vi mặc định khi kéo
         }
-    }, { passive: false });
+    });
     
     document.addEventListener('mouseup', function() {
-        if (isDragging) {
-            // Lưu vị trí vào localStorage
-            const rect = chatbotButton.getBoundingClientRect();
-            localStorage.setItem('chatbotX', rect.left);
-            localStorage.setItem('chatbotY', rect.top);
-        }
-        
-        // Đặt lại trạng thái sau một khoảng thời gian ngắn
-        setTimeout(() => {
-            wasDragging = false;
-        }, 100);
-        
         isDragging = false;
         dragOffsetX = undefined;
         dragOffsetY = undefined;
         chatbotButton.style.cursor = 'pointer';
+        
+        // Reset wasDragging sau một khoảng thời gian ngắn
+        setTimeout(() => {
+            wasDragging = false;
+        }, 100);
     });
     
     document.addEventListener('touchend', function() {
-        if (isDragging) {
-            // Lưu vị trí vào localStorage
-            const rect = chatbotButton.getBoundingClientRect();
-            localStorage.setItem('chatbotX', rect.left);
-            localStorage.setItem('chatbotY', rect.top);
-        }
-        
-        // Đặt lại trạng thái sau một khoảng thời gian ngắn
-        setTimeout(() => {
-            wasDragging = false;
-        }, 100);
-        
         isDragging = false;
         dragOffsetX = undefined;
         dragOffsetY = undefined;
         chatbotButton.style.cursor = 'pointer';
+        
+        // Reset wasDragging sau một khoảng thời gian ngắn
+        setTimeout(() => {
+            wasDragging = false;
+        }, 100);
     });
     
-    // Khôi phục vị trí đã lưu
-    const savedX = localStorage.getItem('chatbotX');
-    const savedY = localStorage.getItem('chatbotY');
-    
-    if (savedX && savedY) {
-        chatbotButton.style.left = savedX + 'px';
-        chatbotButton.style.top = savedY + 'px';
-        chatbotButton.style.right = 'auto';
-        chatbotButton.style.bottom = 'auto';
-    } else {
-        // Vị trí mặc định ở bên trái màn hình
-        chatbotButton.style.left = '20px';
-        chatbotButton.style.bottom = '80px';
-        chatbotButton.style.right = 'auto';
-        chatbotButton.style.top = 'auto';
-    }
-    
-    // Đóng chatbot khi nhấn nút Escape
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && isChatbotOpen) {
-            closeChatbot();
-        }
-    });
-    
-    // Đóng chatbot khi nhấn vào bên ngoài
-    document.addEventListener('click', function(e) {
-        if (isChatbotOpen && 
-            !chatbotWindow.contains(e.target) && 
-            e.target !== chatbotButton) {
-            closeChatbot();
+    // Xử lý sự kiện resize để điều chỉnh giao diện khi thay đổi kích thước màn hình
+    window.addEventListener('resize', function() {
+        const newIsMobile = window.innerWidth <= 768;
+        const newIsSmallMobile = window.innerWidth <= 480;
+        
+        // Chỉ cập nhật nếu trạng thái thiết bị thay đổi
+        if (newIsMobile !== isMobile || newIsSmallMobile !== isSmallMobile) {
+            // Cập nhật kích thước chatbot button
+            if (newIsMobile) {
+                chatbotButton.style.width = newIsSmallMobile ? '55px' : '60px';
+                chatbotButton.style.height = newIsSmallMobile ? '55px' : '60px';
+                
+                // Đặt lại vị trí mặc định nếu chuyển từ desktop sang mobile
+                if (!isMobile) {
+                    chatbotButton.style.bottom = '80px';
+                    chatbotButton.style.left = '20px';
+                    chatbotButton.style.top = 'auto';
+                    chatbotButton.style.right = 'auto';
+                }
+            } else {
+                // Trở lại kích thước desktop
+                chatbotButton.style.width = '65px';
+                chatbotButton.style.height = '65px';
+            }
+            
+            // Cập nhật kích thước cửa sổ chat nếu đang mở
+            if (isChatbotOpen) {
+                if (newIsMobile) {
+                    chatbotWindow.style.maxHeight = '80vh';
+                    chatbotWindow.style.width = newIsSmallMobile ? '90%' : '85%';
+                } else {
+                    chatbotWindow.style.maxHeight = '500px';
+                    chatbotWindow.style.width = '320px';
+                }
+            }
         }
     });
 
@@ -290,12 +324,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Function to load products
 function loadProducts() {
-    const productGrid = document.getElementById('productGrid');
-    
-    // Product data with images from ImgBB (free image hosting)
-    const regularProducts = [
+    // Mảng chứa thông tin sản phẩm
+    const products = [
         {
             name: "Canva Pro",
             description: "Thiết kế đồ họa chuyên nghiệp, không giới hạn",
@@ -307,117 +338,114 @@ function loadProducts() {
             image: "https://i.ibb.co/WnzmSQR/youtube.jpg"
         },
         {
-            name: "Capcut Pro",
-            description: "Chỉnh sửa video chuyên nghiệp với nhiều hiệu ứng",
-            image: "https://i.ibb.co/39xBKJTn/capcut.jpg"
-        },
-        {
             name: "Microsoft 365",
             description: "Office, OneDrive, Windows bản quyền chính hãng",
             image: "https://i.ibb.co/0qXZkdT/microsoft.jpg"
+        },
+        {
+            name: "CapCut Pro",
+            description: "Chỉnh sửa video chuyên nghiệp với nhiều hiệu ứng",
+            image: "https://i.ibb.co/39xBKJTn/capcut.jpg",
+            special: true
         }
     ];
+
+    // Lấy phần tử grid để thêm sản phẩm
+    const productGrid = document.getElementById('productGrid');
     
-    const specialProduct = {
-        name: "Xem tất cả sản phẩm",
-        description: "Danh sách đầy đủ các mặt hàng hiện có",
-        image: "https://i.ibb.co/N9zfQXD/all-products.png",
-        isSpecial: true,
-        link: "https://docs.google.com/spreadsheets/d/your-sheet-id/edit"  // Thay thế bằng link Google Sheet thực tế
-    };
+    // Kiểm tra xem productGrid có tồn tại không
+    if (!productGrid) return;
     
-    // Clear existing products
+    // Xóa nội dung hiện tại của grid
     productGrid.innerHTML = '';
     
-    // Add special product at the top
-    addProductToGrid(specialProduct, productGrid, true);
-    
-    // Add regular products
-    regularProducts.forEach(product => {
-        addProductToGrid(product, productGrid, false);
+    // Thêm từng sản phẩm vào grid
+    products.forEach(product => {
+        addProductToGrid(product, productGrid, product.special);
     });
-    
-    // Add special product at the bottom too
-    addProductToGrid(specialProduct, productGrid, true);
 }
 
-// Function to add a product to the grid
-function addProductToGrid(product, grid, isSpecial) {
+function addProductToGrid(product, grid, isSpecial = false) {
+    // Tạo phần tử sản phẩm
     const productItem = document.createElement('div');
     productItem.className = 'product-item' + (isSpecial ? ' special-product' : '');
-    
-    productItem.innerHTML = `
-        <div class="product-image">
-            <img src="${product.image}" alt="${product.name}" loading="lazy">
-        </div>
-        <div class="product-info">
-            <h4>${product.name}</h4>
-            <p>${product.description}</p>
-        </div>
-    `;
-    
-    // Add click event to open purchase modal or special link
-    productItem.addEventListener('click', () => {
-        if (product.isSpecial && product.link) {
-            window.open(product.link, '_blank');
-        } else {
-            openPurchaseModal(product.name);
-        }
-    });
-    
-    // Xử lý ảnh lỗi
-    const img = productItem.querySelector('img');
-    img.onerror = function() {
-        this.style.display = 'none';
-        this.parentElement.classList.add('img-error');
+    productItem.onclick = function() {
+        openPurchaseModal(product.name);
     };
     
+    // Tạo phần hình ảnh
+    const productImage = document.createElement('div');
+    productImage.className = 'product-image';
+    
+    const img = document.createElement('img');
+    img.src = product.image;
+    img.alt = product.name;
+    img.loading = 'lazy'; // Lazy loading cho hình ảnh
+    img.onerror = function() {
+        productImage.classList.add('img-error');
+    };
+    
+    productImage.appendChild(img);
+    
+    // Tạo phần thông tin
+    const productInfo = document.createElement('div');
+    productInfo.className = 'product-info';
+    
+    const productName = document.createElement('h4');
+    productName.textContent = product.name;
+    
+    const productDesc = document.createElement('p');
+    productDesc.textContent = product.description;
+    
+    productInfo.appendChild(productName);
+    productInfo.appendChild(productDesc);
+    
+    // Ghép các phần lại với nhau
+    productItem.appendChild(productImage);
+    productItem.appendChild(productInfo);
+    
+    // Thêm vào grid
     grid.appendChild(productItem);
 }
 
-// Open purchase modal
 function openPurchaseModal(productName) {
     const modal = document.getElementById('purchaseModal');
     const productNameInput = document.getElementById('productNameInput');
     
-    if (modal) {
-        modal.style.display = 'flex';
-        productNameInput.value = productName;
-    }
+    productNameInput.value = productName;
+    modal.style.display = 'flex';
+    
+    // Focus vào trường nhập liệu đầu tiên
+    setTimeout(() => {
+        document.getElementById('customerNameInput').focus();
+    }, 300);
 }
 
-// Close purchase modal
 function closeModal() {
     const modal = document.getElementById('purchaseModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
+    modal.style.display = 'none';
+    
+    // Reset form
+    document.getElementById('customerNameInput').value = '';
+    document.getElementById('customerContactInput').value = '';
 }
 
-// Send purchase information to Zalo and Telegram
 function sendPurchaseInfo() {
     const productName = document.getElementById('productNameInput').value;
     const customerName = document.getElementById('customerNameInput').value;
     const customerContact = document.getElementById('customerContactInput').value;
     
+    // Kiểm tra dữ liệu
     if (!customerName || !customerContact) {
-        alert('Vui lòng nhập đầy đủ thông tin');
+        alert('Vui lòng điền đầy đủ thông tin!');
         return;
     }
     
-    // Format message
-    const message = `Đơn hàng mới:\nSản phẩm: ${productName}\nKhách hàng: ${customerName}\nLiên hệ: ${customerContact}`;
-    
-    // Encode message for URL
+    // Mở Zalo với thông tin đặt hàng
+    const message = `Xin chào, tôi muốn đặt mua sản phẩm: ${productName}. Tên tôi là: ${customerName}. Thông tin liên hệ: ${customerContact}`;
     const encodedMessage = encodeURIComponent(message);
-    
-    // Open Zalo chat with pre-filled message
     window.open(`https://zalo.me/0825280204?text=${encodedMessage}`, '_blank');
     
-    // You can replace YOUR_TELEGRAM_USERNAME with your actual Telegram username
-    // For example: window.open(`https://t.me/your_username?text=${encodedMessage}`, '_blank');
-    window.open(`https://t.me/share/url?url=&text=${encodedMessage}`, '_blank');
-    
-    // Close modal after sending
+    // Đóng modal
     closeModal();
 } 
