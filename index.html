@@ -53,30 +53,39 @@
                 
                 <div class="product-showcase" id="productShowcase">
                     <h3>Sản Phẩm Hiện Có</h3>
-                    <div class="product-grid">
-                        <div class="product-item">
-                            <div class="product-image">
-                                <img src="https://via.placeholder.com/150" alt="Product 1">
-                            </div>
-                            <div class="product-info">
-                                <h4>Sản Phẩm 1</h4>
-                                <p>Mô tả ngắn về sản phẩm</p>
-                            </div>
-                        </div>
-                        <div class="product-item">
-                            <div class="product-image">
-                                <img src="https://via.placeholder.com/150" alt="Product 2">
-                            </div>
-                            <div class="product-info">
-                                <h4>Sản Phẩm 2</h4>
-                                <p>Mô tả ngắn về sản phẩm</p>
-                            </div>
-                        </div>
+                    <div class="product-grid" id="productGrid">
+                        <!-- Products will be loaded from script.js -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- Purchase Modal -->
+    <div id="purchaseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h3>Đặt Mua Sản Phẩm</h3>
+            <div class="purchase-form">
+                <div class="form-group">
+                    <label for="productNameInput">Sản phẩm:</label>
+                    <input type="text" id="productNameInput" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="customerNameInput">Họ tên của bạn:</label>
+                    <input type="text" id="customerNameInput" placeholder="Nhập họ tên của bạn" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerContactInput">Số điện thoại/Email:</label>
+                    <input type="text" id="customerContactInput" placeholder="Nhập số điện thoại hoặc email" required>
+                </div>
+                <button class="submit-button" onclick="sendPurchaseInfo()">
+                    <i class="fas fa-paper-plane"></i> Gửi Thông Tin
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html> 
