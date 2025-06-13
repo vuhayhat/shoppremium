@@ -844,10 +844,186 @@ a {
     right: 0;
     display: flex;
     justify-content: center;
+    gap: 20px;
     z-index: 999;
     pointer-events: none;
 }
 
 .sticky-footer .product-button {
     pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #4a1b6d 0%, #6a3399 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    border: 2px solid #00ff99;
+    box-shadow: 
+        0 0 15px rgba(0, 255, 153, 0.5),
+        0 0 30px rgba(106, 51, 153, 0.3),
+        inset 0 0 10px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: button-glow 2s infinite alternate;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Support button specific styles */
+.sticky-footer .support-button {
+    background: linear-gradient(135deg, #1a6d4a 0%, #339980 100%);
+    border: 2px solid #00ffcc;
+    box-shadow: 
+        0 0 15px rgba(0, 255, 204, 0.5),
+        0 0 30px rgba(51, 153, 128, 0.3),
+        inset 0 0 10px rgba(255, 255, 255, 0.2);
+    animation: support-button-glow 2s infinite alternate;
+}
+
+.sticky-footer .support-button:hover {
+    box-shadow: 
+        0 0 20px rgba(0, 255, 204, 0.7),
+        0 0 40px rgba(51, 153, 128, 0.5),
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.sticky-footer .support-button.active {
+    background: linear-gradient(135deg, #33a07a 0%, #4dccb0 100%);
+    border: 2px solid #00ffee;
+    box-shadow: 
+        0 0 25px rgba(0, 255, 238, 0.8),
+        0 0 50px rgba(51, 204, 176, 0.6),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+    transform: translateY(-5px) scale(1.05);
+    animation: support-button-active 0.8s infinite alternate;
+}
+
+@keyframes support-button-active {
+    0% {
+        box-shadow: 
+            0 0 25px rgba(0, 255, 238, 0.8),
+            0 0 50px rgba(51, 204, 176, 0.6),
+            inset 0 0 20px rgba(255, 255, 255, 0.5);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 1);
+    }
+    100% {
+        box-shadow: 
+            0 0 35px rgba(0, 255, 238, 1),
+            0 0 70px rgba(51, 204, 176, 0.8),
+            inset 0 0 25px rgba(255, 255, 255, 0.7);
+        text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(0, 255, 238, 1);
+    }
+}
+
+.sticky-footer .support-button i {
+    color: #00ffcc;
+    text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+}
+
+@keyframes support-button-glow {
+    0% {
+        box-shadow: 
+            0 0 15px rgba(0, 255, 204, 0.5),
+            0 0 30px rgba(51, 153, 128, 0.3),
+            inset 0 0 10px rgba(255, 255, 255, 0.2);
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        box-shadow: 
+            0 0 25px rgba(0, 255, 204, 0.8),
+            0 0 50px rgba(51, 153, 128, 0.5),
+            inset 0 0 15px rgba(255, 255, 255, 0.4);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 1), 0 0 20px rgba(0, 255, 204, 0.7);
+    }
+}
+
+.sticky-footer .product-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 
+        0 0 20px rgba(0, 255, 153, 0.7),
+        0 0 40px rgba(106, 51, 153, 0.5),
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.sticky-footer .product-button:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.sticky-footer .product-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: 0.5s;
+}
+
+.sticky-footer .product-button:hover::before {
+    left: 100%;
+}
+
+.sticky-footer .product-button i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    color: #00ff99;
+    text-shadow: 0 0 10px rgba(0, 255, 153, 0.8);
+}
+
+@keyframes button-glow {
+    0% {
+        box-shadow: 
+            0 0 15px rgba(0, 255, 153, 0.5),
+            0 0 30px rgba(106, 51, 153, 0.3),
+            inset 0 0 10px rgba(255, 255, 255, 0.2);
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        box-shadow: 
+            0 0 25px rgba(0, 255, 153, 0.8),
+            0 0 50px rgba(106, 51, 153, 0.5),
+            inset 0 0 15px rgba(255, 255, 255, 0.4);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 1), 0 0 20px rgba(0, 255, 153, 0.7);
+    }
+}
+
+/* Responsive adjustments for product button */
+@media (max-width: 768px) {
+    .sticky-footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        bottom: 15px;
+    }
+    
+    .sticky-footer .product-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        width: 80%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sticky-footer {
+        gap: 10px;
+        bottom: 10px;
+    }
+    
+    .sticky-footer .product-button {
+        padding: 8px 18px;
+        font-size: 0.95rem;
+        border-width: 1.5px;
+        width: 90%;
+    }
+    
+    .sticky-footer .product-button i {
+        font-size: 1.1rem;
+        margin-right: 8px;
+    }
 } 

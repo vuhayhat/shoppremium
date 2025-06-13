@@ -34,6 +34,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Support button click handler
+    const supportBtn = document.getElementById('supportBtn');
+    supportBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Mở chatbot khi nhấn vào nút hỗ trợ
+        if (!isChatbotOpen) {
+            openChatbot();
+        }
+    });
+
     // Example: Track clicks on social links
     const socialLinks = document.querySelectorAll('.social-link');
     socialLinks.forEach(link => {
@@ -142,6 +152,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isMobile) {
             document.body.classList.add('chatbot-open');
         }
+        
+        // Thêm hiệu ứng nhấp nháy cho nút hỗ trợ khi chatbot mở
+        if (supportBtn) {
+            supportBtn.classList.add('active');
+        }
     }
     
     function closeChatbot() {
@@ -162,6 +177,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Xóa lớp ngăn cuộn
         document.body.classList.remove('chatbot-open');
+        
+        // Xóa hiệu ứng active cho nút hỗ trợ
+        if (supportBtn) {
+            supportBtn.classList.remove('active');
+        }
     }
     
     // Đóng chatbot khi click bên ngoài
